@@ -1,0 +1,98 @@
+<!-- @author HachenaGhofrane -->
+<div class="container">
+  <div class="form-card">
+    <h1>{{ atelierTitle }}</h1>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Champ Nom -->
+      <div class="form-group">
+        <label for="nom" class="form-label">
+          Nom <span class="required">*</span>
+        </label>
+        <input
+          id="nom"
+          type="text"
+          formControlName="nom"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': hasError('nom') }"
+          placeholder="Entrer le nom de l'atelier"
+        />
+        <div class="invalid-feedback" *ngIf="hasError('nom')">
+          {{ getErrorMessage('nom') }}
+        </div>
+      </div>
+
+      <!-- Champ Email Formateur -->
+      <div class="form-group">
+        <label for="emailFormateur" class="form-label">
+          Email Formateur <span class="required">*</span>
+        </label>
+        <input
+          id="emailFormateur"
+          type="email"
+          formControlName="emailFormateur"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': hasError('emailFormateur') }"
+          placeholder="Entrer l'email du formateur"
+        />
+        <div class="invalid-feedback" *ngIf="hasError('emailFormateur')">
+          {{ getErrorMessage('emailFormateur') }}
+        </div>
+      </div>
+
+      <!-- Champ Nombre de Participants -->
+      <div class="form-group">
+        <label for="nbrParticipant" class="form-label">
+          Nombre de Participants <span class="required">*</span>
+        </label>
+        <input
+          id="nbrParticipant"
+          type="number"
+          formControlName="nbrParticipant"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': hasError('nbrParticipant') }"
+          placeholder="Entrer le nombre de participants"
+        />
+        <div class="invalid-feedback" *ngIf="hasError('nbrParticipant')">
+          {{ getErrorMessage('nbrParticipant') }}
+        </div>
+      </div>
+
+      <!-- Champ Statut -->
+      <div class="form-group checkbox-group">
+        <label for="statut" class="checkbox-label">
+          <input
+            id="statut"
+            type="checkbox"
+            formControlName="statut"
+            class="checkbox-input"
+          />
+          Actif
+        </label>
+      </div>
+
+      <!-- Boutons -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="form.invalid || isSubmitting"
+        >
+          {{ isSubmitting ? 'Traitement...' : submitButtonText }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onCancel()"
+          [disabled]="isSubmitting"
+        >
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

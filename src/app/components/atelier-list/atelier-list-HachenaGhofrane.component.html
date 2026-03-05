@@ -1,0 +1,72 @@
+<!-- @author HachenaGhofrane -->
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Ateliers</h1>
+    <button class="btn btn-primary" (click)="navigateToCreate()">
+      + Nouvel Atelier
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="isLoading" class="loader">
+    <p>Chargement des ateliers...</p>
+  </div>
+
+  <div class="search-box" *ngIf="!isLoading">
+    <input
+      type="text"
+      placeholder="Rechercher par nom ou email..."
+      [(ngModel)]="searchTerm"
+      class="search-input"
+    />
+  </div>
+
+  <div class="table-container" *ngIf="!isLoading">
+    <table class="table" *ngIf="getFilteredAteliers().length > 0; else noData">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Email Formateur</th>
+          <th>Nombre de Participants</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let atelier of getFilteredAteliers()">
+          <td>{{ atelier.id }}</td>
+          <td>{{ atelier.nom }}</td>
+          <td>{{ atelier.emailFormateur }}</td>
+          <td>{{ atelier.nbrParticipant }}</td>
+          <td>
+            <span [class.badge-active]="atelier.statut" [class.badge-inactive]="!atelier.statut" class="badge">
+              {{ atelier.statut ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button
+              class="btn btn-sm btn-warning"
+              (click)="navigateToEdit(atelier.id)"
+            >
+              Éditer
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="deleteAtelier(atelier.id)"
+            >
+              Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noData>
+      <p class="no-data">Aucun atelier trouvé</p>
+    </ng-template>
+  </div>
+</div>
